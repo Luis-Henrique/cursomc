@@ -1,6 +1,10 @@
 package br.com.luish.cursomc.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.luish.cursomc.domain.Categoria;
+import br.com.luish.cursomc.dto.CategoriaDTO;
 import br.com.luish.cursomc.services.CategoriaService;
 
 //Fornecendo serviços Rest com resposta JSON
@@ -58,6 +63,19 @@ public class CategoriaResource {
 		categoriaService.delete(id);
 		
 		return ResponseEntity.noContent().build();
+		
+		//handler intercepta exception
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		
+		List<Categoria> list =  categoriaService.findAll();
+		
+		//passa list de categorias para list de dto
+		List<CategoriaDTO> dtos = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(dtos);
 		
 		//handler intercepta exception
 	}
