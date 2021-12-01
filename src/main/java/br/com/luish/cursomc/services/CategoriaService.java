@@ -3,6 +3,7 @@ package br.com.luish.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 
 import br.com.luish.cursomc.domain.Categoria;
@@ -30,6 +31,14 @@ public class CategoriaService {
 	public Categoria insert(Categoria obj) {
 		
 		obj.setId(null);
+		return categoriaRepository.save(obj);
+		
+	}
+
+	public Categoria update(Categoria obj) {
+		
+		find(obj.getId());
+	
 		return categoriaRepository.save(obj);
 		
 	}
