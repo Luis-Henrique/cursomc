@@ -3,11 +3,12 @@ package br.com.luish.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.support.Repositories;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.luish.cursomc.domain.Categoria;
 import br.com.luish.cursomc.repositories.CategoriaRepository;
+import br.com.luish.cursomc.services.exceptions.DataIntegrityException;
 import br.com.luish.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -40,6 +41,19 @@ public class CategoriaService {
 		find(obj.getId());
 	
 		return categoriaRepository.save(obj);
+		
+	}
+
+	public void delete(Integer id) {
+		
+		find(id);
+		
+		try {
+			categoriaRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir categoria que possuí produtos");
+		}
+		
 		
 	}
 	
