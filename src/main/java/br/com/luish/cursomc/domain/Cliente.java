@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -34,7 +35,8 @@ public class Cliente implements Serializable {
 	
 	//cliente pode serelizar os enderecos
 	//@JsonManagedReference
-	@OneToMany(mappedBy = "cliente")
+	//cascade.ALL toda operação em cliente pode ser afetada em enderecos apaga ambos
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	//JPA cria no banco a entidade fraca
