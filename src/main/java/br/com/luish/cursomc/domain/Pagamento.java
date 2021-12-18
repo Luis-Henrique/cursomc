@@ -12,12 +12,15 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.luish.cursomc.domain.enums.EstadoPagamento;
 
 //anotação para geração das tabelas como herança "ou tabela unica ou tabela com todos os campos e irão como null da outra tabela"
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+//campo adicional para informar que havéra esse type, minha classe terá campo extra
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
