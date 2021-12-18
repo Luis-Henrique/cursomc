@@ -22,34 +22,34 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
-	
-	//mapeado na classe pagamento 
-	//@JsonManagedReference
+
+	// mapeado na classe pagamento
+	// @JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
-	
-	//muitos pedidos pode ter um cliente
-	//pedido pode serelizar cliente
+
+	// muitos pedidos pode ter um cliente
+	// pedido pode serelizar cliente
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
-	//@JsonManagedReference
+	// @JsonManagedReference
 	private Cliente cliente;
-	
-	//muitos pedidos pode ter uma entrega
+
+	// muitos pedidos pode ter uma entrega
 	@ManyToOne
 	@JoinColumn(name = "endereco_de_entrega_id")
 	private Endereco enderecoEntrega;
-	
+
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
-	
+
 	public Pedido() {
 	}
 
@@ -59,6 +59,17 @@ public class Pedido implements Serializable {
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoEntrega = enderecoEntrega;
+	}
+
+	public double getValorTotal() {
+		
+		double soma = 0;
+		
+		for(ItemPedido ip : itens) {
+			soma = soma + ip.getSubTotal();
+		}
+		
+		return soma;
 	}
 
 	public Integer getId() {
@@ -100,7 +111,7 @@ public class Pedido implements Serializable {
 	public void setEnderecoEntrega(Endereco enderecoEntrega) {
 		this.enderecoEntrega = enderecoEntrega;
 	}
-	
+
 	public Set<ItemPedido> getItens() {
 		return itens;
 	}
@@ -125,9 +136,5 @@ public class Pedido implements Serializable {
 		Pedido other = (Pedido) obj;
 		return Objects.equals(id, other.id);
 	}
-
-
-	
-	
 
 }

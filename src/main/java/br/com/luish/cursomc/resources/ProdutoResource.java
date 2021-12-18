@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.luish.cursomc.domain.Categoria;
 import br.com.luish.cursomc.domain.Produto;
-import br.com.luish.cursomc.dto.CategoriaDTO;
 import br.com.luish.cursomc.dto.ProdutoDTO;
 import br.com.luish.cursomc.resources.utils.URL;
 import br.com.luish.cursomc.services.ProdutoService;
